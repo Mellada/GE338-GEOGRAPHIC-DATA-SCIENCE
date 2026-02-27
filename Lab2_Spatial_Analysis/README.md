@@ -1,5 +1,4 @@
-# GE338 – Lab 2  
-## Spatial Analysis using Google Earth Engine
+# GE338 – Lab 2: Spatial Analysis
 
 ---
 

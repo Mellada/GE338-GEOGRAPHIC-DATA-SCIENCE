@@ -45,10 +45,10 @@
 
 Export ข้อมูล 2 ประเภท:
 
-1. PNG: แผนที่ NDVI Change  
-2. CSV: ค่าเฉลี่ย NDVI รายอำเภอ  
+1. PNG แผนที่ NDVI Change  
+2. CSV ค่าเฉลี่ย NDVI รายอำเภอ  
 
-CRS ที่ใช้: EPSG:32648 (UTM Zone 48N)  
+CRS ที่ใช้ EPSG:32648 (UTM Zone 48N)  
 Scale: 10 เมตร  
 
 Trade-off:

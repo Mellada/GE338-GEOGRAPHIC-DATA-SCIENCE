@@ -2,7 +2,7 @@
 
 ---
 
-# ภารกิจที่ 1: เลือกพื้นที่ศึกษาและเหตุผล
+## ภารกิจที่ 1: เลือกพื้นที่ศึกษาและเหตุผล
 
 พื้นที่ศึกษา: จังหวัดอุบลราชธานี ประเทศไทย
 
@@ -12,9 +12,9 @@
 
 ---
 
-# ภารกิจที่ 2: เลือกดาวเทียมและช่วงเวลา
+## ภารกิจที่ 2: เลือกดาวเทียมและช่วงเวลา
 
-## ดาวเทียมที่เลือก
+### ดาวเทียมที่เลือก
 
 Sentinel-2 Surface Reflectance (COPERNICUS/S2_SR_HARMONIZED)
 
@@ -26,7 +26,7 @@ Sentinel-2 Surface Reflectance (COPERNICUS/S2_SR_HARMONIZED)
 
 ---
 
-## ช่วงเวลาที่เลือก
+### ช่วงเวลาที่เลือก
 
 - Dry season: 1 Jan 2023 – 30 Apr 2023
 - Wet season: 1 Jul 2023 – 30 Nov 2023
@@ -37,7 +37,7 @@ Sentinel-2 Surface Reflectance (COPERNICUS/S2_SR_HARMONIZED)
 
 ---
 
-## การตั้งค่าเมฆ
+### การตั้งค่าเมฆ
 
 กำหนด CLOUDY_PIXEL_PERCENTAGE < 20%
 
@@ -49,13 +49,11 @@ Sentinel-2 Surface Reflectance (COPERNICUS/S2_SR_HARMONIZED)
 
 ---
 
-# ภารกิจที่ 3: วิเคราะห์และตีความ
-
-ทำครบ 3 ข้อจาก 5 ดังนี้
+## ภารกิจที่ 3: วิเคราะห์และตีความ
 
 ---
 
-## 1. คำนวณ Spectral Index (ตอบภารกิจที่ 3 ข้อ 1)
+### 3.1 คำนวณ Spectral Index (ตอบภารกิจที่ 3 ข้อ 1)
 
 คำนวณ:
 
@@ -70,7 +68,7 @@ NDWI = (B3 - B8) / (B3 + B8)
 
 ---
 
-## 2. เปรียบเทียบ Composite 2 ช่วงเวลา (ตอบภารกิจที่ 3 ข้อ 3)
+### 3.2 เปรียบเทียบ Composite 2 ช่วงเวลา
 
 สร้าง NDVI Change:
 
@@ -85,7 +83,7 @@ NDVI Change = NDVI (Wet) - NDVI (Dry)
 
 ---
 
-## 3. สร้าง Zonal Statistics (ตอบภารกิจที่ 3 ข้อ 2)
+### 3.3 สร้าง Zonal Statistics
 
 คำนวณค่าเฉลี่ย NDVI รายอำเภอ
 
@@ -97,18 +95,16 @@ NDVI Change = NDVI (Wet) - NDVI (Dry)
 
 ---
 
-# ภารกิจที่ 4: Export และจัดการข้อมูล
+## ภารกิจที่ 4: Export และจัดการข้อมูล
 
-## ข้อมูลที่ส่งออก
+### ข้อมูลที่ส่งออก
 
 1. Raster: NDVI Change (GeoTIFF)
 2. Table: District mean NDVI (CSV)
 
-(ตอบภารกิจที่ 4)
-
 ---
 
-## CRS ที่เลือก
+### CRS ที่เลือก
 
 EPSG:32648 (UTM Zone 48N)
 
@@ -120,7 +116,7 @@ EPSG:32648 (UTM Zone 48N)
 
 ---
 
-## Scale ที่เลือก
+### Scale ที่เลือก
 
 10 meters
 

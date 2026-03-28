@@ -3,8 +3,8 @@
 ## พื้นที่ศึกษา
 
 จังหวัดสุโขทัย ประเทศไทย
-ข้อมูล: Sentinel-2 Surface Reflectance ปี 2023
-ความละเอียด: 10 เมตร
+ข้อมูล Sentinel-2 Surface Reflectance ปี 2023
+ความละเอียด 10 เมตร
 
 ---
 

@@ -1,58 +1,52 @@
-# GE338 - Lab 3: Machine Learning Land Use Classification (Sukhothai)
+# GE338 Lab 3: Land Use Classification (Sukhothai)
 
-## Study Area
+## พื้นที่ศึกษา
 
-พื้นที่ศึกษา: จังหวัดสุโขทัย ประเทศไทย
-ข้อมูลดาวเทียม: Sentinel-2 Surface Reflectance (2023)
-ความละเอียดเชิงพื้นที่: 10 เมตร
-
----
-
-# 1. Training Strategy
-
-## จำนวน Class และนิยาม
-
-ใช้ทั้งหมด 4 Class:
-
-| Class       | คำอธิบาย                         |
-| ----------- | -------------------------------- |
-| Urban       | พื้นที่สิ่งปลูกสร้าง เมือง ถนน   |
-| Water       | แหล่งน้ำ เช่น แม่น้ำ อ่างเก็บน้ำ |
-| Agriculture | พื้นที่เกษตรกรรม พืชไร่ นาข้าว   |
-| Bare_soil   | ดินเปล่า พื้นที่ไม่มีพืชคลุม     |
-
-เลือก 4 class เพื่อให้แยกประเภทหลักของพื้นที่ชุ่มน้ำและเกษตรกรรมได้ชัดเจน
+จังหวัดสุโขทัย ประเทศไทย
+ข้อมูล: Sentinel-2 Surface Reflectance ปี 2023
+ความละเอียด: 10 เมตร
 
 ---
 
-## วิธีสร้าง Training Samples
+# ภารกิจที่ 1: Training Strategy
 
-ใช้วิธี:
+## จะใช้ประเภทที่ดินกี่ Class?
 
-* Digitize จุดตัวอย่างด้วยตนเองใน Google Earth Engine
-* อ้างอิงภาพ False Color และ True Color
-* กระจายจุดให้ครอบคลุมพื้นที่ศึกษา
+ใช้ 4 Class ได้แก่
 
-จำนวน Training samples ทั้งหมด: 400 จุด
+| Class       | คำอธิบาย                       |
+| ----------- | ------------------------------ |
+| Urban       | พื้นที่เมือง สิ่งปลูกสร้าง ถนน |
+| Water       | แหล่งน้ำ                       |
+| Agriculture | พื้นที่เกษตรกรรม               |
+| Bare_soil   | ดินเปล่า                       |
+
+เลือก 4 class เพื่อให้แยกพื้นที่เกษตรและพื้นที่ชุ่มน้ำได้ชัดเจน
 
 ---
 
-## Train / Validation Split
+## จะหา Training Samples อย่างไร?
 
-ใช้การแบ่งแบบสุ่ม:
+ใช้การ digitize จุดตัวอย่างด้วยตนเองใน Google Earth Engine
+อ้างอิงภาพ True color และ False color
+กระจายจุดให้ครอบคลุมพื้นที่ศึกษา
 
-* Train: 80%
-* Validation: 20%
+จำนวน training samples = 400 จุด
+
+---
+
+## จะแบ่ง Train/Validation อย่างไร?
+
+ใช้ random split 80/20
 
 | Dataset    | จำนวน |
 | ---------- | ----- |
 | Train      | 327   |
 | Validation | 73    |
 
-ข้อดีของ random split:
+ข้อดี:
 
-* ง่ายและเหมาะกับข้อมูลขนาดเล็ก
-* ลด bias จากตำแหน่ง
+* ง่ายและเหมาะกับข้อมูลน้อย
 
 ข้อเสีย:
 
@@ -61,25 +55,13 @@
 
 ---
 
-## Feature Selection
+## Feature ที่ใช้มีอะไรบ้าง?
 
-ใช้ทั้ง Spectral Bands และ Spectral Indices
+Spectral Bands:
+B2, B3, B4, B8, B11, B12
 
-### Spectral Bands
-
-* B2 (Blue)
-* B3 (Green)
-* B4 (Red)
-* B8 (NIR)
-* B11 (SWIR1)
-* B12 (SWIR2)
-
-### Spectral Indices
-
-* NDVI
-* NDWI
-* NDBI
-* BSI
+Spectral Indices:
+NDVI, NDWI, NDBI, BSI
 
 เหตุผล:
 
@@ -90,9 +72,9 @@
 
 ---
 
-# 2. Algorithm Comparison
+# ภารกิจที่ 2: เปรียบเทียบอัลกอริทึม
 
-ทดสอบ 3 อัลกอริทึม:
+ทดลอง 3 อัลกอริทึม
 
 * Random Forest
 * CART
@@ -106,39 +88,13 @@
 | CART          | 0.876            | 0.824 |
 | SVM           | 0.849            | 0.798 |
 
-ผลลัพธ์:
-
-* CART ให้ค่า Accuracy สูงสุด
-* Random Forest และ SVM ให้ผลใกล้เคียงกัน
-* CART ทำงานดีใน dataset ขนาดเล็ก
-
-ดังนั้น CART เป็นโมเดลที่ดีที่สุดสำหรับ dataset นี้
+CART ให้ค่า accuracy สูงที่สุด
 
 ---
 
-# 3. Confusion Matrix (Random Forest)
+# ภารกิจที่ 3: Feature Importance
 
-| Reference \ Predicted | Urban | Water | Agriculture | Bare_soil |
-| --------------------- | ----- | ----- | ----------- | --------- |
-| Urban                 | 14    | 0     | 0           | 1         |
-| Water                 | 0     | 21    | 0           | 0         |
-| Agriculture           | 0     | 0     | 14          | 4         |
-| Bare_soil             | 2     | 2     | 2           | 13        |
-
-Class ที่สับสนมากที่สุด:
-
-* Agriculture vs Bare_soil
-
-สาเหตุ:
-
-* spectral signature คล้ายกัน
-* พื้นที่เกษตรหลังเก็บเกี่ยวมีลักษณะเหมือนดินเปล่า
-
----
-
-# 4. Feature Importance (Random Forest)
-
-อันดับความสำคัญ:
+Feature ที่สำคัญที่สุดคือ NDWI และ NDVI
 
 | Rank | Feature |
 | ---- | ------- |
@@ -153,76 +109,54 @@ Class ที่สับสนมากที่สุด:
 | 9    | BSI     |
 | 10   | NDBI    |
 
-Interpretation:
-
-* NDWI สำคัญที่สุด เพราะช่วยแยกน้ำได้ดี
-* NDVI ช่วยแยกพืช
-* SWIR bands ช่วยแยกดินและ built-up
-* NDBI มีความสำคัญต่ำ เนื่องจาก built-up ในพื้นที่มีน้อย
+NDWI สำคัญเพราะแยกน้ำได้ดี
+NDVI ช่วยแยกพืช
+SWIR bands ช่วยแยกดินและ built-up
 
 ---
 
-# 5. Model Uncertainty
+# ภารกิจที่ 4: ความไม่แน่นอนของโมเดล
 
-Class ที่โมเดลสับสนมากที่สุด:
+Class ที่สับสนมากที่สุดคือ
+Agriculture และ Bare_soil
 
-* Agriculture และ Bare soil
+สาเหตุ:
 
-พื้นที่ที่ไม่แน่ใจ:
-
-* พื้นที่เกษตรช่วงหลังเก็บเกี่ยว
-* พื้นที่ดินแห้ง
-
-Confidence ของโมเดล:
-
-* Water มีความแม่นยำสูง
-* Urban มีจำนวนตัวอย่างน้อย ทำให้ความไม่แน่นอนสูง
+* spectral signature คล้ายกัน
+* พื้นที่เกษตรหลังเก็บเกี่ยวมีลักษณะเหมือนดินเปล่า
 
 ---
 
-# 6. Effect of Increasing Training Samples
+# คำถามเพิ่มเติม
 
-หากเพิ่ม Training samples เป็น 2 เท่า:
+## ถ้าเพิ่ม Training Samples อีก 2 เท่า Accuracy จะเพิ่มหรือไม่?
 
-* คาดว่า Accuracy จะเพิ่มขึ้น
-* โดยเฉพาะ Urban class
-* ลด confusion ระหว่าง Agriculture และ Bare soil
-
-เหตุผล:
-
-* โมเดลเรียนรู้ pattern ได้ดีขึ้น
-* ลด bias
+คาดว่า accuracy จะเพิ่มขึ้น โดยเฉพาะ Urban class
+เนื่องจากโมเดลมีข้อมูลเรียนรู้มากขึ้น
 
 ---
 
-# 7. Spatial Autocorrelation
+## Spatial Autocorrelation มีผลอย่างไร?
 
-Training points อยู่ใกล้กัน
-ส่งผลให้:
-
-* Accuracy สูงเกินจริง
-* validation ไม่อิสระ
-
-วิธีแก้:
-
-* spatial cross-validation
-* แยกพื้นที่ training / testing
+training samples อยู่ใกล้กัน
+ทำให้ accuracy สูงเกินจริง
+validation ไม่เป็นอิสระ
 
 ---
 
-# 8. Worst Performing Class
+## Class ที่โมเดลทำได้แย่ที่สุดคืออะไร?
 
-Bare soil ทำได้แย่ที่สุด
+Bare_soil
 
 วิธีปรับปรุง:
 
 * เพิ่ม training samples
-* เพิ่ม dry season image
-* ใช้ texture features
+* ใช้ภาพช่วงฤดูแล้ง
+* เพิ่ม texture feature
 
 ---
 
-# 9. Transfer to Other Area
+## ถ้าทำพื้นที่อื่น ต้องเปลี่ยนอะไร?
 
 ต้องเปลี่ยน:
 
@@ -234,21 +168,16 @@ Bare soil ทำได้แย่ที่สุด
 
 * code structure
 * feature selection
-* algorithm setup
+* algorithm
 
 ---
 
-# 10. Conclusion
+# สรุปผล
 
-* CART ให้ผลดีที่สุดใน dataset นี้
-* Random Forest มีข้อดีด้าน interpretability
-* Spectral indices ช่วยเพิ่ม accuracy
-* Agriculture และ Bare soil สับสนมากที่สุด
-* การเพิ่ม training samples จะช่วยปรับปรุงผลลัพธ์
+CART ให้ผลดีที่สุด
+Accuracy สูงสุด = 0.876
 
-Accuracy สูงสุดที่ได้:
-0.876 (CART)
+Random Forest และ SVM ให้ผลใกล้เคียงกัน
 
-โมเดลที่เลือก:
-CART
-
+Spectral indices ช่วยเพิ่มความแม่นยำ
+Agriculture และ Bare soil สับสนมากที่สุด

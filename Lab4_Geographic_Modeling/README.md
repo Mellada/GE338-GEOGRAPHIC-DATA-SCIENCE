@@ -1,4 +1,4 @@
-# GE338 Lab 4 – Geographic Modeling
+# Lab 4 – Geographic Modeling
 
 ## การสร้างแบบจำลองความเสี่ยงน้ำท่วมในจังหวัดสุโขทัย
 
